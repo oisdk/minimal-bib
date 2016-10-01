@@ -1,0 +1,6 @@
+---
+title: example
+bibliography: Expression Problem.bib
+---
+
+Here is a citation [@swierstra_data_2008]
