@@ -24,11 +24,11 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ readPandocOptionalBiblio
-              <&> writePandoc
-              >>= loadAndApplyTemplate "templates/post.html"    postCtx
-              >>= loadAndApplyTemplate "templates/default.html" postCtx
-              >>= relativizeUrls
+        compile $  writePandoc
+               <$> readPandocOptionalBiblio
+               >>= loadAndApplyTemplate "templates/post.html"    postCtx
+               >>= loadAndApplyTemplate "templates/default.html" postCtx
+               >>= relativizeUrls
 
     match "assets/csl/*" $ compile cslCompiler
 
@@ -71,9 +71,6 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
-
-(<&>) :: Functor f => f a -> (a -> b) -> f b
-x <&> f = f <$> x
 
 readPandocOptionalBiblio :: Compiler (Item Pandoc)
 readPandocOptionalBiblio = do
